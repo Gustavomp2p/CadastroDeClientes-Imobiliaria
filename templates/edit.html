@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo-favicon.png') }}">
+    <style>
+    /* Animação suave */
+    @keyframes fadeSlide {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    body { 
+        font-family: Arial, sans-serif; 
+        margin: 20px; 
+        background-color: #1a1a1a; /* preto suave */
+        color: #b6f2c1; 
+        animation: fadeSlide 0.3s ease-out;
+    }
+
+    .container { 
+        max-width: 600px; 
+        margin: auto; 
+        background: #222; 
+        padding: 20px; 
+        border-radius: 12px; 
+        box-shadow: 0 0 12px rgba(0,0,0,0.4); 
+        animation: fadeSlide 0.45s ease-out;
+    }
+
+    h1 { 
+        color: #b6f2c1;
+        animation: fadeSlide 0.5s ease-out;
+    }
+
+    form div { 
+        margin-bottom: 15px; 
+        animation: fadeSlide 0.55s ease-out;
+    }
+
+    label { 
+        display: block; 
+        margin-bottom: 5px; 
+        font-weight: bold; 
+        color: #b6f2c1;
+    }
+
+    input[type="text"], input[type="email"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        border: 1px solid #8be5a5;
+        border-radius: 6px;
+        background-color: #1f1f1f;
+        color: #b6f2c1;
+        transition: all 0.25s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+        outline: none;
+        border-color: #9ef0b6;
+        background-color: #262626;
+        box-shadow: 0 0 6px rgba(158, 240, 182, 0.35);
+    }
+
+    .button {
+        display: inline-block;
+        background-color: #8be5a5; /* verde pastel forte */
+        color: #1a1a1a;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        margin-right: 10px;
+        transition: transform 0.25s ease, background-color 0.25s ease;
+    }
+
+    .button:hover {
+        background-color: #9ef0b6;
+        transform: translateY(-2px);
+    }
+
+    .back-button {
+        background-color: #5f9f7a;
+        color: #1a1a1a;
+    }
+
+    .back-button:hover {
+        background-color: #79b894;
+        transform: translateY(-2px);
+    }
+
+    .message { 
+        padding: 10px; 
+        margin-bottom: 15px; 
+        border-radius: 6px; 
+        animation: fadeSlide 0.55s ease-out;
+    }
+
+    .success { 
+        background-color: #203a2c; 
+        color: #b6f2c1; 
+        border: 1px solid #8be5a5; 
+    }
+
+    .error { 
+        background-color: #3a2020; 
+        color: #f4b6b6; 
+        border: 1px solid #a56868; 
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Clientes</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% if cliente_i %}
+            <form method="POST">
+                <div>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome_cliente" value="{{ cliente_i.nome_cliente }}" required>
+                </div>
+
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email_cliente" value="{{ cliente_i.email_cliente }}" required>
+                </div>
+
+                <div>
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="tipo" name="telefone_cliente" value="{{ cliente_i.telefone_cliente }}" required>
+                </div>
+
+                <div>
+                    <label for="cpf">Cpf:</label>
+                    <input type="text" id="cpf" name="cpf_cliente" value="{{ cliente_i.cpf_cliente }}" required>
+                </div>
+
+                <button type="submit" class="button">Atualizar</button>
+                <a href="{{ url_for('index') }}" class="button back-button">Cancelar</a>
+            </form>
+        {% else %}
+            <p>Cliente não encontrado para edição. Por favor, <a href="{{ url_for('index') }}" style="color: #8be5a5;">volte para a lista</a>.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

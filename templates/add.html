@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Cliente</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo-favicon.png') }}">
+    <style>
+    /* Animação suave geral */
+    @keyframes fadeSlide {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #1a1a1a; /* preto suave */
+        color: #e8ffe8; /* texto verde bem claro */
+        animation: fadeSlide 0.3s ease-out;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: #242424; /* preto um pouco mais claro */
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: fadeSlide 0.4s ease-out;
+    }
+
+    h1 {
+        color: #b6f2c1; /* verde pastel principal */
+        animation: fadeSlide 0.5s ease-out;
+    }
+
+    form div {
+        margin-bottom: 15px;
+        animation: fadeSlide 0.6s ease-out;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #b6f2c1; /* verde pastel */
+    }
+
+    input[type="text"], input[type="email"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        border: 1px solid #8be5a5; /* borda pastel */
+        border-radius: 6px;
+        background-color: #1f1f1f;
+        color: #ffffff;
+        transition: all 0.25s ease;
+    }
+
+    input[type="text"]:focus {
+        border-color: #9ef0b6; /* hover verde pastel */
+        box-shadow: 0 0 6px rgba(158, 240, 182, 0.35);
+        background-color: #262626;
+    }
+
+    /* Botões */
+    .button {
+        display: inline-block;
+        background-color: #8be5a5; /* verde forte pastel */
+        color: #1a1a1a; /* preto suave */
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        margin-right: 10px;
+        transition: transform 0.25s ease, background-color 0.25s ease;
+    }
+
+    .button:hover {
+        background-color: #9ef0b6; /* hover pastel */
+        transform: translateY(-2px);
+    }
+
+    .back-button {
+        background-color: #3a3a3a; /* cinza escuro elegante */
+        color: white;
+    }
+
+    .back-button:hover {
+        background-color: #4a4a4a;
+        transform: translateY(-2px);
+    }
+
+    /* Mensagens */
+    .message {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        animation: fadeSlide 0.4s ease-out;
+    }
+
+    .success {
+        background-color: #1f3d29;
+        color: #b6f2c1;
+        border: 1px solid #8be5a5;
+    }
+
+    .error {
+        background-color: #3d1f1f;
+        color: #ffb6b6;
+        border: 1px solid #d37c7c;
+    }
+</style>
+
+
+
+
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Novo Cliente</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome_cliente" required>
+            </div>
+            
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email_cliente" required>
+            </div>
+
+            <div>
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone_cliente" required>
+            </div>
+
+            <div>
+                <label for="cpf">Cpf:</label>
+                <input type="text" id="cpf" name="cpf_cliente" required>
+            </div>
+            
+            <button type="submit" class="button">Adicionar</button>
+            <a href="{{ url_for('index') }}" class="button back-button">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

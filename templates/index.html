@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo-favicon.png') }}">
+
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #1a1a1a; 
+            color: #b6f2c1; 
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: auto; 
+            background: #222; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 14px rgba(0,0,0,0.45); 
+            animation: fadeIn 0.7s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #b6f2c1;
+            margin-bottom: 12px;
+        }
+
+        /* LOGO RETANGULAR */
+        .logo-box {
+            width: 547px;
+            height: 120px;
+            background-color: #1a1a1a;
+            border: 6px solid #8be5a5;
+            border-radius: 12px;
+            display: center;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            color: #b6f2c1;
+            background-color: #1f1f1f;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td { 
+            border: 1px solid #8be5a5; 
+            padding: 10px; 
+            text-align: left; 
+            vertical-align: middle; 
+            transition: background-color 0.25s ease;
+        }
+
+        th { 
+            background-color: #2b2b2b;
+            font-weight: bold; 
+            color: #b6f2c1;
+        }
+
+        th a {
+            color: #8be5a5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        th a:hover {
+            color: #9ef0b6;
+        }
+
+        tr:nth-child(even) { 
+            background-color: #242424; 
+        }
+
+        tr:hover { 
+            background-color: #2f2f2f; 
+        }
+
+        .add-button {
+            display: inline-block;
+            background-color: #8be5a5;
+            color: #1a1a1a;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.25s ease, transform 0.2s ease;
+        }
+
+        .add-button:hover {
+            background-color: #9ef0b6;
+            transform: scale(1.03);
+        }
+
+        .edit-button, .delete-button {
+            display: inline-block;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.85em;
+            margin-right: 8px;
+            transition: background-color 0.25s ease, transform 0.2s ease;
+        }
+
+        .edit-button {
+            background-color: #8be5a5;
+            color: #1a1a1a;
+        }
+        .edit-button:hover {
+            background-color: #9ef0b6;
+            transform: scale(1.05);
+        }
+
+        .delete-button {
+            background-color: #5f9f7a;
+            color: #1a1a1a;
+        }
+        .delete-button:hover {
+            background-color: #79b894;
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER COM LOGO ABAIXO DO TÍTULO -->
+        <div class="header">
+            <h1>Cadastro de Clientes</h1>
+
+            <!-- LOGO RETANGULAR HORIZONTAL -->
+            <div class="logo-box">
+                <!-- Substitua pelo caminho da sua logo -->
+                <img src="/static/logo.png" alt="Logo da Imobiliária">
+            </div>
+        </div>
+
+        <a href="{{ url_for('add_cliente') }}" class="add-button">Adicionar Novo Cliente</a>
+
+        {% if cliente %}
+            <table>
+                <thead>
+                    <tr>
+                        <th><a href="{{ url_for('index') }}">ID ⬍</a></th>
+                        <th><a href="{{ url_for('index', ordenar='nome') }}">Nome ⬍</a></th>
+                        <th><a href="{{ url_for('index', ordenar='email') }}">Email ⬍</a></th>
+                        <th><a href="{{ url_for('index', ordenar='telefone') }}">Telefone ⬍</a></th>
+                        <th><a href="{{ url_for('index', ordenar='cpf') }}">Cpf ⬍</a></th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente_i in cliente %}
+                        <tr>
+                            <td>{{ cliente_i.id_cliente }}</td>
+                            <td>{{ cliente_i.nome_cliente }}</td>
+                            <td>{{ cliente_i.email_cliente }}</td>
+                            <td>{{ cliente_i.telefone_cliente }}</td>
+                            <td>{{ cliente_i.cpf_cliente }}</td>
+                            <td>
+                                <a href="{{ url_for('edit_cliente', id_cliente=cliente_i.id_cliente) }}" class="edit-button">Editar</a>
+                                
+                                <form action="{{ url_for('delete_cliente', id_cliente=cliente_i.id_cliente) }}" method="post" class="delete-form">
+                                    <button type="submit" class="delete-button" onclick="return confirm('Tem certeza que deseja excluir o cliente {{ cliente_i.id_cliente }}?')">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum Cliente encontrado. <a href="{{ url_for('add_cliente') }}" style="color: #8be5a5;">Adicione um agora!</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>
