@@ -65,7 +65,7 @@ dbImobiliaria
 2. Ir até o diretório da pasta do projeto:
 
 ```
-CadastroDeClientes
+CadastroDeClientes-Imobiliaria
 ```
 
 3. Ativar o ambiente virtual:
